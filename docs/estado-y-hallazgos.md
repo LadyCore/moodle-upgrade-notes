@@ -11,6 +11,7 @@ Fecha de corte: 2026-10-17. Evidencia de laboratorio; no aprobacion de produccio
 | DirectoryIndex index.php explicito dentro del Directory del sitio | Portada por ruta raiz dejo de devolver 404 | No se registro validacion final del router |
 | Multitopic 4.5.3 a 5.3.0, build 2026100502 | Reaparecieron pestanas, contenido y banner con Boost y Adaptable | Pruebas exhaustivas de actividades pendientes |
 | Collapsed Topics a 503.0.2, build 2026100701 | Actualizador CLI completo correctamente | MATURITY_RC; prueba funcional pendiente |
+| Dependencias Composer desde composer.lock, sin desarrollo, scripts ni plugins; autoload optimizado | Extraccion real completada; check-platform-reqs --no-dev muestra success; mantenimiento desactivado y Apache active | No acredita desaparicion de avisos web ni correccion del router |
 
 ## Incidentes
 
@@ -42,10 +43,8 @@ la imagen. La evidencia no justificaba declarar perdidos los archivos.
 ## Pendientes
 
 - Adaptable 405.2.8 muestra paneles superpuestos y controles defectuosos en 5.3.
-- Avisos de entorno: Composer installed data not found y Router not configured.
-- vendor no existe en la raiz consultada. composer.json y composer.lock existen;
-  require incluye bibliotecas de ejecucion. Composer no fue encontrado en PATH.
-- Descarga y verificacion de Composer fueron propuestas; resultado aun no recibido.
+- Reconsultar los avisos de entorno Composer installed data not found y Router
+  not configured tras instalar dependencias; no se acredita aun su resolucion.
 - Un episodio transitorio de Database connection failed se recupero segun el
   relato de la administradora. Causa no determinada.
 - Gestor de certificados emite aviso de metadatos subplugintypes obsoletos.
@@ -53,6 +52,23 @@ la imagen. La evidencia no justificaba declarar perdidos los archivos.
   soporte declarado revisado llegaba a Moodle 5.2, no 5.3.
 - Imagenes de tarjetas/tema siguen pendientes de revision. No asumir perdida
   general de archivos ni prescribir recarga masiva de imagenes.
+
+## Dependencias Composer
+
+La ausencia inicial de vendor se abordo conservando composer.lock. Se descargo
+un PHAR con version fijada y se verifico su checksum oficial. Tras una simulacion,
+la instalacion real se ejecuto bajo mantenimiento con PHP 8.3, sin dependencias
+de desarrollo, scripts ni plugins y con autoload autoritativo. Se ajustaron la
+propiedad del nuevo vendor y su contexto SELinux antes de reabrir Apache.
+
+check-platform-reqs --no-dev mostro todos los requisitos listados en success con
+PHP 8.3.35. ctype y mbstring figuraban provistos por polyfills; una consulta
+posterior de modulos confirmo ambas extensiones nativas en CLI. No extrapolar
+esa comprobacion a la configuracion efectiva de PHP-FPM.
+
+El aviso de version del paquete raiz moodle/moodle no detectada, con fallback a
+1.0.0, no equivale a cambiar la version de Moodle instalada. La instalacion de
+bibliotecas no demuestra por si sola que el router o la interfaz funcionen.
 
 ## Compatibilidad revisada
 
