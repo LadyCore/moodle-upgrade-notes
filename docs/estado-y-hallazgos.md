@@ -43,8 +43,13 @@ la imagen. La evidencia no justificaba declarar perdidos los archivos.
 ## Pendientes
 
 - Adaptable 405.2.8 muestra paneles superpuestos y controles defectuosos en 5.3.
-- Reconsultar los avisos de entorno Composer installed data not found y Router
-  not configured tras instalar dependencias; no se acredita aun su resolucion.
+- Tras instalar dependencias y reabrir el laboratorio, Composer installed data
+  not found ya no aparece en Other checks de la comprobacion web mostrada.
+  /core/check/controller/test devuelve Test controller response antes de agregar
+  $CFG->routerconfigured = true; en config.php, antes de cargar lib/setup.php.
+  Tras esa declaracion desaparece Router not configured de Entorno. No fue
+  necesario cambiar handlers ni reglas Apache. Esto verifica la ruta probada y
+  la declaracion, no todas las rutas ni el funcionamiento de los adicionales.
 - Un episodio transitorio de Database connection failed se recupero segun el
   relato de la administradora. Causa no determinada.
 - Gestor de certificados emite aviso de metadatos subplugintypes obsoletos.
@@ -65,6 +70,10 @@ check-platform-reqs --no-dev mostro todos los requisitos listados en success con
 PHP 8.3.35. ctype y mbstring figuraban provistos por polyfills; una consulta
 posterior de modulos confirmo ambas extensiones nativas en CLI. No extrapolar
 esa comprobacion a la configuracion efectiva de PHP-FPM.
+
+Tras reabrir, se observa mejora parcial del control del indice del curso: permite
+abrir y cerrar la navegacion. No atribuir causalidad exclusiva a Composer ni
+declarar el tema validado; la revision visual conjunta sigue pendiente.
 
 El aviso de version del paquete raiz moodle/moodle no detectada, con fallback a
 1.0.0, no equivale a cambiar la version de Moodle instalada. La instalacion de
