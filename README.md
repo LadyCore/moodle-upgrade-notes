@@ -34,17 +34,14 @@ independientes y no deben confundirse con el despliegue de Moodle 5.3.
 ## Privacidad
 
 Esta guia describe un entorno tecnico reproducible, no identifica las plataformas
-de origen ni a sus responsables. No publicar usuarios reales, instituciones,
+de origen ni a sus responsables. No publica usuarios reales, instituciones,
 dominios, IP, nombres de servidores, cursos o plataformas, ni rutas personales.
 
-No incorporar config.php, credenciales, bases de datos, moodledata, archivos de
-cursos, datos de participantes ni capturas originales. No copiar la bitacora
+No incorpora config.php, credenciales, bases de datos, moodledata, archivos de
+cursos, datos de participantes ni capturas originales. No copia la bitacora
 operativa completa: este proyecto contiene una sintesis revisada.
 
-El destino acordado es un repositorio publico. No se requiere ocultar la identidad
-de quien lo publica; si proteger la informacion de las plataformas de origen y
-evitar cualquier vinculacion institucional en documentos, ejemplos y metadatos.
-Revisar tambien nombres y correos de autoria para excluir datos institucionales.
+El destino acordado es un repositorio publico. 
 
 La documentacion se publica en elaboracion. Los procedimientos y hallazgos se
 ampliaran a medida que se confirmen ejecuciones y resultados.
