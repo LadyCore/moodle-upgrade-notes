@@ -9,7 +9,8 @@ universal ni un procedimiento aprobado para produccion.
 - Entorno de referencia: CentOS Stream 9 Minimal, Apache, PHP 8.3 FPM de Remi y MariaDB 11.4.
 - Conservacion de cursos y archivos existentes.
 - Revision de compatibilidad de adicionales antes de la validacion funcional final.
-- Temas considerados: Boost y Adaptable.
+- Temas principales: Boost y Adaptable. Alcance ampliado a Moove y Trema como
+  alternativas; sus actualizaciones y pruebas se registran por separado.
 
 La actualizacion de Moodle 5.3 descrita aqui se ejecuto en laboratorio, no en
 produccion. Las operaciones previas sobre PHP y MariaDB tienen registros
@@ -34,14 +35,17 @@ independientes y no deben confundirse con el despliegue de Moodle 5.3.
 ## Privacidad
 
 Esta guia describe un entorno tecnico reproducible, no identifica las plataformas
-de origen ni a sus responsables. No publica usuarios reales, instituciones,
+de origen ni a sus responsables. No publicar usuarios reales, instituciones,
 dominios, IP, nombres de servidores, cursos o plataformas, ni rutas personales.
 
-No incorpora config.php, credenciales, bases de datos, moodledata, archivos de
-cursos, datos de participantes ni capturas originales. No copia la bitacora
+No incorporar config.php, credenciales, bases de datos, moodledata, archivos de
+cursos, datos de participantes ni capturas originales. No copiar la bitacora
 operativa completa: este proyecto contiene una sintesis revisada.
 
-El destino acordado es un repositorio publico. 
+El destino acordado es un repositorio publico. No se requiere ocultar la identidad
+de quien lo publica; si proteger la informacion de las plataformas de origen y
+evitar cualquier vinculacion institucional en documentos, ejemplos y metadatos.
+Revisar tambien nombres y correos de autoria para excluir datos institucionales.
 
 La documentacion se publica en elaboracion. Los procedimientos y hallazgos se
 ampliaran a medida que se confirmen ejecuciones y resultados.
