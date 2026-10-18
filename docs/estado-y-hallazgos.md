@@ -111,12 +111,13 @@ Consulta del 2026-10-17: ultima release publica encontrada V502.2.1, publicada e
 2026-10-06 para Moodle 5.2. Las ramas publicas consultadas no incluyen MOODLE_503;
 main declara soporte 5.2. No se localizo paquete publico declarado compatible 5.3.
 
-El autor Gareth Barnard publico el 2026-10-16 el articulo
-[Dark mode](https://www.elearningworld.org/dark-mode/), donde describe trabajo
-en modo oscuro de Adaptable en una version de desarrollo, junto con cambios en
-controles de paneles, en contexto de Moodle 5.3. Esto acredita trabajo en curso,
-no una version estable descargable ni un plazo de publicacion. Preguntar al autor
-por disponibilidad de prueba seria el siguiente paso; no se lo ha contactado.
+El articulo [Dark mode](https://www.elearningworld.org/dark-mode/), publicado por
+Gareth Barnard el 2026-10-16, explica la funcion experimental de Boost y menciona
+por separado experimentos de modo oscuro y controles en Adaptable. Esa mencion
+NO demuestra una adaptacion de compatibilidad de Adaptable a Moodle 5.3, ni un
+plan, plazo o paquete de prueba para esa version. No usarla como evidencia de
+soporte 5.3 en desarrollo. Preguntar al autor especificamente por compatibilidad
+5.3 seria el siguiente paso; no se lo ha contactado.
 
 Las versiones siguientes se verificaron el 2026-10-17. Son datos de publicaciones,
 no certificaciones de compatibilidad independientes. Actualizar la consulta antes
