@@ -11,8 +11,8 @@ historicas, no una seleccion automatica de paquetes para otra instalacion.
 | --- | --- |
 | Sistema | CentOS Stream 9 Minimal |
 | Web | Apache con PHP-FPM de Remi |
-| PHP utilizado | 8.3.35; ejecutable CLI explicitamente seleccionado |
-| Base de datos | MariaDB 11.4.13 |
+| PHP | 8.1.34 a 8.3.35 mediante SCL en paralelo; CLI seleccionado y FPM web comprobado |
+| Base de datos | MariaDB 10.11.15 a 11.4.13; servidor efectivo consultado |
 | Origen Moodle | 4.5.8 |
 | Destino Moodle | 5.3 Build 20261005, version 2026100500 |
 
@@ -39,8 +39,19 @@ funciones del componente hayan sido verificadas.
 
 ## Infraestructura
 
+El recorrido incluyo primero [MariaDB](actualizacion-mariadb.md), despues
+[PHP](actualizacion-php.md) y finalmente [Moodle](procedimiento-actualizacion.md).
+No se limita a instalar el core sobre dependencias ya actualizadas.
+
 | Comprobacion | Resultado |
 | --- | --- |
+| MariaDB, primer intento | Upgrade RPM directo fallo en PREIN; estado parcial identificado, no usado como procedimiento recomendado |
+| MariaDB, resolucion | Copia en frio comparada; retirada solo del servidor anterior con noautoremove; servidor 11.4.13 instalado |
+| MariaDB, comprobacion | mariadb-upgrade cerro con OK; reinicio, consulta de version, acceso a curso y cron correctos |
+| PHP, instalacion | Paquetes php83-php-* y extensiones, incluida LDAP, instalados en paralelo desde remi-safe |
+| PHP, configuracion | Override seleccionado de directivas locales; sintaxis FPM comprobada y servicio activo/habilitado |
+| PHP, cambio web | Reglas de socket Apache adaptadas, sintaxis validada y recarga; PHP web 8.3.35 FPM/FastCGI confirmado |
+| PHP, comprobacion | 99-moodle.ini cargado, cron con ejecutable nuevo correcto, curso y editor Atto accesibles; PHP 8.1 conservado |
 | Actualizador del core | Finalizo correctamente |
 | Raiz web en public | Acceso operativo |
 | Entrada por raiz | 404 corregido al establecer DirectoryIndex index.php |
@@ -51,6 +62,13 @@ funciones del componente hayan sido verificadas.
 | Bloques globales | Navigation y Administration operativos tras habilitacion en Boost y ajuste de alcance; sin duplicados observados |
 
 ## Limites funcionales
+
+- Respaldos de infraestructura: copias y comprobaciones de contenido o integridad
+  realizadas; no se ensayo su restauracion. No presentar esa recuperabilidad
+  como validada. El inventario completo de todos los RPM tras la resolucion de
+  MariaDB no se volvio a aportar; el procedimiento reutilizable exige comprobarlo.
+- PHP: carga del override comprobada; no se cotejaron todas las directivas
+  efectivas ni se dimensiono el pool mediante mediciones nuevas.
 
 - Cursos: pestanas operativas, PDF visibles y paginas de foro, libro y
   cuestionario accesibles. No se validaron nuevos intentos, calificaciones,
@@ -77,6 +95,9 @@ estaba presente antes del reemplazo. No aparecio en la salida visible del upgrad
 a 5.0.11; no se verificaron todos los contextos de ejecucion.
 
 ## Fuentes de paquetes y autoria
+
+- [MariaDB: ruta Community 10.11 a 11.4](https://mariadb.com/docs/server/server-management/install-and-upgrade-mariadb/upgrading/mariadb-community-server-upgrade-paths/upgrading-from-mariadb-10-11-to-mariadb-11-4).
+- [Remi: paquetes base y colecciones paralelas](https://blog.remirepo.net/pages/English-FAQ).
 
 - [Multitopic, repositorio del autor](https://github.com/james-cnz/moodle-format_multitopic/releases/tag/v5.3.0).
 - [Collapsed Topics, Gareth Barnard](https://github.com/gjbarnard/moodle-format_topcoll/tree/V503.0.2).

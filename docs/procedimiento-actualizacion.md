@@ -1,5 +1,11 @@
 # Procedimiento de actualizacion
 
+Esta es la etapa de Moodle del recorrido completo. Antes, ejecutar y validar
+la [actualizacion de MariaDB](actualizacion-mariadb.md) y la
+[actualizacion de PHP](actualizacion-php.md), salvo que esas dependencias ya
+esten en versiones adecuadas y comprobadas. No combinar las tres intervenciones
+en una sola transaccion sin puntos de control.
+
 ## 1. Alcance y condiciones de entrada
 
 Aplicable a Moodle 4.5 que migra a 5.3 sobre CentOS Stream 9 Minimal, Apache,
@@ -11,7 +17,7 @@ Antes de continuar:
 - Revisar requisitos en [MoodleDocs](https://docs.moodle.org/503/en/Upgrading) y
   Administracion del sitio > Servidor > Entorno. Resolver errores bloqueantes.
 - Disponer de acceso administrativo, espacio para codigo y respaldos y una
-  copia de ensayo separada. Esta guia no actualiza PHP o MariaDB.
+  copia de ensayo separada. Completar las etapas previas de MariaDB y PHP.
 - Inventariar plugins, subplugins y personalizaciones; fijar versiones o commits
   de los candidatos y comprobar requisitos y soporte.
 - Definir y comprobar la recuperacion consistente de base, datos y codigo.

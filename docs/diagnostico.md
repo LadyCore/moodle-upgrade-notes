@@ -3,6 +3,23 @@
 Aplicar solo el apartado del sintoma. No repetir toda la migracion ni modificar
 CSS o permisos generales sin comprobaciones previas.
 
+## MariaDB: fallo PREIN o paquetes de ramas mezcladas
+
+Consultar `rpm -qa 'MariaDB-*' | sort` y la version efectiva mediante SQL si
+el servidor puede iniciarse con seguridad. El cliente 11.4 no acredita servidor
+11.4. No repetir a ciegas un upgrade masivo ni usar `--nodeps` para omitir el
+control RPM. Seguir el [flujo de MariaDB](actualizacion-mariadb.md), con respaldo
+en frio, retirada controlada solo del servidor viejo e instalacion del candidato.
+Comprobar el resultado de `mariadb-upgrade` antes de reabrir la aplicacion.
+
+## PHP: CLI nuevo pero web antigua, o error de socket
+
+La instalacion SCL no cambia automaticamente Apache ni cron. Revisar reglas
+SetHandler completas, socket del pool, servicio `php83-php-fpm`, acceso y logs.
+No deducir PHP web desde PATH ni desactivar SELinux para resolver un 503.
+Seguir el [flujo de PHP](actualizacion-php.md), comprobar sintaxis antes de recargar
+y verificar version/configuracion desde la informacion PHP de Moodle.
+
 ## La raiz devuelve 404 pero index.php abre
 
 1. Confirmar DocumentRoot y Directory hacia `public`.

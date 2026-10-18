@@ -13,6 +13,8 @@ formato y tipo de pagina para distinguir el origen de los fallos.
 
 | Area | Accion | Criterio esperado |
 | --- | --- | --- |
+| MariaDB | Consultar servidor efectivo y revisar mariadb-upgrade | Version destino correcta, tablas revisadas y servicio activo |
+| PHP | Comparar CLI, PHP web, extensiones e INI efectivos | Ejecutable nuevo en tareas y FPM destino en web; ajustes requeridos cargados |
 | Entorno | Abrir comprobacion del servidor | Sin errores bloqueantes; avisos identificados |
 | Acceso | Abrir raiz, iniciar sesion y salir | Sin 404 ni redirecciones incorrectas |
 | Router | Probar ruta indicada en diagnostico | Respuesta del controlador, no solo ausencia del aviso |

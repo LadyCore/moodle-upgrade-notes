@@ -2,6 +2,9 @@
 
 - Write for an administrator reusing the procedure on an equivalent installation,
   not as a report addressed to the originating user or a transcript of support.
+- Preserve the full platform upgrade scope: MariaDB, PHP, Moodle core and plugins.
+  Do not silently demote completed database/runtime upgrade work to prerequisites
+  or exclude it from the reusable procedure. Link the stages in execution order.
 - Put requirements, parameters, ordered actions, expected results, stop conditions
   and recovery in operational guides. Keep historical versions and observed limits
   in a separate reference matrix. Never turn an untested proposal into a result.

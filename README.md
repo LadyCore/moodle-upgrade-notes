@@ -1,26 +1,32 @@
-# Actualizacion de Moodle 4.5 a 5.3
+# Actualizacion de plataforma Moodle: MariaDB, PHP y Moodle
 
 Procedimiento de administracion para preparar, ejecutar y verificar una
-actualizacion de Moodle en CentOS Stream 9 Minimal, con Apache, PHP-FPM de Remi,
-MariaDB y SELinux. Incluye cambio de raiz web a `public`, actualizacion de
-plugins, comprobaciones funcionales y criterios de recuperacion.
+actualizacion de la plataforma en CentOS Stream 9 Minimal, con Apache y SELinux.
+Incluye MariaDB 10.11 a 11.4, PHP 8.1 a 8.3 mediante Remi en paralelo y Moodle
+4.5 a 5.3, cambio de raiz web a `public`, plugins y validacion funcional.
 
 ## Ruta de lectura
 
-1. [Procedimiento de actualizacion](docs/procedimiento-actualizacion.md): requisitos,
+1. [Actualizacion de MariaDB](docs/actualizacion-mariadb.md): repositorio, respaldo,
+   sustitucion controlada del servidor, mariadb-upgrade y verificaciones.
+2. [Actualizacion de PHP](docs/actualizacion-php.md): instalacion paralela, ajustes,
+   pool FPM, sockets Apache, PHP web y cron.
+3. [Actualizacion de Moodle](docs/procedimiento-actualizacion.md): requisitos,
    parametros, respaldo, sustitucion del codigo y actualizador CLI.
-2. [Actualizacion de plugins](docs/actualizacion-plugins.md): seleccion del paquete,
+4. [Actualizacion de plugins](docs/actualizacion-plugins.md): seleccion del paquete,
    requisitos, sustitucion por componente y subplugins.
-3. [Validacion funcional](docs/validacion.md): pruebas y criterios de aceptacion.
-4. [Diagnostico](docs/diagnostico.md): sintomas, comprobaciones y acciones acotadas.
-5. [Matriz del ensayo de referencia](docs/estado-y-hallazgos.md): versiones exactas,
+5. [Validacion funcional](docs/validacion.md): pruebas y criterios de aceptacion.
+6. [Diagnostico](docs/diagnostico.md): sintomas, comprobaciones y acciones acotadas.
+7. [Matriz del ensayo de referencia](docs/estado-y-hallazgos.md): versiones exactas,
    resultados obtenidos y limitaciones conocidas.
 
 ## Alcance y uso
 
 La guia presupone experiencia con Linux, Apache y administracion de Moodle.
-No instala el sistema operativo ni actualiza PHP o MariaDB: esas dependencias
-deben cumplir los requisitos de la version elegida antes de comenzar.
+No instala el sistema operativo desde cero. El recorrido completo actualiza
+primero MariaDB, despues PHP y finalmente Moodle, comprobando la plataforma
+entre etapas. Si MariaDB o PHP ya cumplen los requisitos, verificar su estado
+y omitir solo la etapa que no corresponda.
 
 Los comandos contienen marcadores que deben sustituirse. Ejecutar los pasos
 por separado y comprobar cada resultado; no pegar el documento como un script.
