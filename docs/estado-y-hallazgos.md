@@ -1,6 +1,6 @@
 # Estado y hallazgos
 
-Fecha de corte: 2026-10-17. Evidencia de laboratorio; no aprobacion de produccion.
+Fecha de corte: 2026-10-18. Evidencia de laboratorio; no aprobacion de produccion.
 
 ## Resultados confirmados
 
@@ -61,11 +61,14 @@ la imagen. La evidencia no justificaba declarar perdidos los archivos.
   la declaracion, no todas las rutas ni el funcionamiento de los adicionales.
 - Un episodio transitorio de Database connection failed se recupero segun el
   relato de la administradora. Causa no determinada.
-- Gestor de certificados emite aviso de metadatos subplugintypes obsoletos.
-- Certificados 5.0.11 se descargo y su ZIP paso la prueba; NO se instalo. El
-  soporte declarado revisado llegaba a Moodle 5.2, no 5.3.
-- Imagenes de tarjetas/tema siguen pendientes de revision. No asumir perdida
-  general de archivos ni prescribir recarga masiva de imagenes.
+- Certificados 5.0.11 instalado: gestor y nueve elementos completaron el upgrade.
+  La gestion de plantillas y la vista previa PDF funcionan en la prueba basica.
+  No aparece el aviso anterior de subplugintypes en la salida del upgrade.
+  Soporte declarado 5.0-5.2; emision real y validacion del QR no comprobadas.
+- Imagenes de tarjetas y contenido visibles en las revisiones de Moove y Trema.
+  No equivale a validar todos los archivos; no hay evidencia de perdida general.
+- Zoom 5.5.1, build 2026082400: sin reemplazo; revision pendiente. No se usa
+  mediante Moodle segun el alcance informado.
 
 ## Dependencias Composer
 
@@ -88,6 +91,39 @@ El aviso de version del paquete raiz moodle/moodle no detectada, con fallback a
 1.0.0, no equivale a cambiar la version de Moodle instalada. La instalacion de
 bibliotecas no demuestra por si sola que el router o la interfaz funcionen.
 
+## Alternativas Adicionales
+
+El alcance se amplio a Moove y Trema para disponer de opciones de tema, sin
+aprobar por ello un cambio de tema en produccion. Moove se actualizo de 4.5.2 a
+5.3.1 (build 2026101200), revision 1e0e60fc3b1fe152a4d6749054ee25dc0a2f32ad
+del repositorio oficial willianmano/moodle-theme_moove. El actualizador CLI
+completo correctamente. Sus requisitos declarados de Moodle y Boost se
+comprobaron antes del reemplazo; revision basica descrita a continuacion.
+Trema se actualizo de 5.2.1.0 a 5.3.0.0 (build 2026101200), tag 5.3.0.0 del
+repositorio oficial trema-tech/moodle-theme_trema. Su ZIP paso la comprobacion
+de integridad, requisitos minimos verificados y actualizador CLI completado
+correctamente. Codigo anterior conservado fuera del arbol web. El 2026-10-18
+se selecciona Trema y se observan
+portada, tarjetas con imagenes, bloques globales, curso con pestanas, libro y
+foro renderizados. Se abre mensajeria y se visualiza una prueba nueva en espacio
+personal; no acredita entrega entre usuarios. Textos de muestra del tema quedan
+por personalizar. Revision basica satisfactoria en esas capturas, no validacion
+funcional exhaustiva ni de todos los tamanos de pantalla.
+
+En la misma fecha se selecciona Moove 5.3.1: selector confirma tema activo;
+portada con tarjetas, bloques globales, curso con pestanas, foro y libro muestran
+presentacion ordenada sin superposicion visible en las capturas. Mensajeria abre
+y muestra una nueva prueba en espacio personal. Esto no acredita entrega entre
+usuarios ni pruebas exhaustivas. Posteriormente la gestion de certificados se
+observa con Trema; no se da por definitiva la seleccion del tema.
+
+En una revision posterior del 2026-10-18 se observan desajustes de presentacion
+del panel lateral derecho en ambos temas segun la pagina: en Trema aparece sobre
+el banner de portada; en Moove se prolonga junto al contenido y pie. Configuracion
+es una hipotesis, no una causa comprobada. Revisar comportamiento esperado del
+cajon, alineacion y ajustes antes de modificar CSS. La revision basica favorable
+no equivale a ausencia de detalles visuales pendientes.
+
 ## Compatibilidad revisada
 
 ### Alternativa visual con Boost
@@ -98,14 +134,35 @@ bloques excluidos, conservando course_list si se desea. Esto habilita agregarlos
 no crea instancias automaticamente ni determina su alcance.
 
 Tras agregar Navigation, una captura del curso muestra navegacion derecha,
-indice izquierdo y contenido central sin superposicion visible. Pendiente
-validar enlaces y bloque Administration. La configuracion inicial pertenecia al
+indice izquierdo y contenido central sin superposicion visible. La administradora
+confirma Navigation y Administration globales funcionando, sin duplicados.
+La configuracion inicial pertenecia al
 curso; para alcance global se configuro desde Site home, siguiendo Page contexts
 Display throughout the entire site. La administradora confirma que aparece bien;
 no equivale a validar individualmente todas las paginas. No borrar
 Adaptable ni su configuracion como requisito de esta alternativa.
 
+### Revision basica del curso existente
+
+Con Boost y el curso Multitopic existente, se confirma por relato de la
+administradora que las pestanas funcionan. Las capturas muestran paginas de foro
+y cuestionario abiertas, recursos PDF renderizados y pagina de recurso URL
+accesible, con navegacion lateral presente y sin superposicion visible. No se
+acredita el destino externo de la URL, nuevos intentos, calificaciones, permisos
+como estudiante ni finalizacion. No es validacion integral del formato.
+
+El alcance de pruebas acordado es revisar cursos existentes o restaurar copias
+de cursos que ya usen cada formato. No crear cursos de prueba ni cambiar el
+formato de originales. Los formatos sin un curso representativo quedan pendientes.
+
+El laboratorio es privado y exclusivo de la administradora; las creadoras de
+cursos no acceden ni participan en sus pruebas. La revision de sus cursos les
+corresponderia en produccion despues de una migracion autorizada. En este caso,
+disponer de Adaptable compatible es condicion para ese salto; Boost en laboratorio
+no implica aprobacion de reemplazar el tema de produccion.
+
 ### Investigacion adicional de Adaptable para 5.3
+
 
 Consulta del 2026-10-17: ultima release publica encontrada V502.2.1, publicada el
 2026-10-06 para Moodle 5.2. Las ramas publicas consultadas no incluyen MOODLE_503;
@@ -133,6 +190,19 @@ de planificar otro despliegue.
 | Tiles | 5.1.0.2, commit b22538a2fb7bbcbd41d6400358d22ddfc5ad307e | 5.1 | Actualizado en ensayo 5.3; upgrade CLI exitoso, prueba funcional pendiente |
 | Mail | 2.18, build 2026100500 | Incluye 5.3 | Ya instalado, sin reemplazo |
 | eMail Test | 3.1.8, build 2026042001 | Incluye 5.3 | Ya instalado, sin reemplazo |
+| Certificados y nueve elementos | v5.0.11, build 2026100600 | 5.0-5.2 | Upgrade exitoso y vista previa PDF renderizada; emision real pendiente |
+| Zoom | 5.5.1, build 2026082400 instalado | No se revalida en este paso | Unico componente del inventario original cuya revision sigue pendiente |
+
+## Prueba Basica De Certificados
+
+El 2026-10-18 se instalo el paquete 5.0.11 como ensayo expresamente autorizado
+fuera de su soporte declarado. Se conservo el codigo previo fuera del arbol web;
+esto no equivale a restaurar la base de datos. El actualizador termino con Success
+para el gestor y los nueve elementos. La pagina de plantillas abre y la vista
+previa genera un PDF de una pagina con nombre, fecha, fondo, imagen de firma,
+logo y QR visibles. El texto coursefullname aparece literalmente en la vista
+previa; no se comprobo su sustitucion en una emision real. No se verificaron
+entrega, validacion del QR ni firma digital criptografica.
 
 Fuentes primarias:
 
