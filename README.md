@@ -1,51 +1,54 @@
-# Moodle 4.5.8 a 5.3: notas de laboratorio
+# Actualizacion de Moodle 4.5 a 5.3
 
-Documentacion en preparacion de un ensayo de actualizacion. No es una receta
-universal ni un procedimiento aprobado para produccion.
+Procedimiento de administracion para preparar, ejecutar y verificar una
+actualizacion de Moodle en CentOS Stream 9 Minimal, con Apache, PHP-FPM de Remi,
+MariaDB y SELinux. Incluye cambio de raiz web a `public`, actualizacion de
+plugins, comprobaciones funcionales y criterios de recuperacion.
 
-## Alcance
+## Ruta de lectura
 
-- Moodle 4.5.8 a Moodle 5.3, Build 20261005.
-- Entorno de referencia: CentOS Stream 9 Minimal, Apache, PHP 8.3 FPM de Remi y MariaDB 11.4.
-- Conservacion de cursos y archivos existentes.
-- Revision de compatibilidad de adicionales antes de la validacion funcional final.
-- Temas principales: Boost y Adaptable. Alcance ampliado a Moove y Trema como
-  alternativas; sus actualizaciones y pruebas se registran por separado.
+1. [Procedimiento de actualizacion](docs/procedimiento-actualizacion.md): requisitos,
+   parametros, respaldo, sustitucion del codigo y actualizador CLI.
+2. [Actualizacion de plugins](docs/actualizacion-plugins.md): seleccion del paquete,
+   requisitos, sustitucion por componente y subplugins.
+3. [Validacion funcional](docs/validacion.md): pruebas y criterios de aceptacion.
+4. [Diagnostico](docs/diagnostico.md): sintomas, comprobaciones y acciones acotadas.
+5. [Matriz del ensayo de referencia](docs/estado-y-hallazgos.md): versiones exactas,
+   resultados obtenidos y limitaciones conocidas.
 
-La actualizacion de Moodle 5.3 descrita aqui se ejecuto en laboratorio, no en
-produccion. Las operaciones previas sobre PHP y MariaDB tienen registros
-independientes y no deben confundirse con el despliegue de Moodle 5.3.
+## Alcance y uso
 
-## Contenido
+La guia presupone experiencia con Linux, Apache y administracion de Moodle.
+No instala el sistema operativo ni actualiza PHP o MariaDB: esas dependencias
+deben cumplir los requisitos de la version elegida antes de comenzar.
 
-- [Estado y hallazgos](docs/estado-y-hallazgos.md).
-- [Politica de privacidad y publicacion](docs/privacidad.md).
-- Procedimiento reproducible: pendiente de extraccion y revision del historial.
-- Matriz completa de compatibilidad: pendiente de consolidacion.
+Los comandos contienen marcadores que deben sustituirse. Ejecutar los pasos
+por separado y comprobar cada resultado; no pegar el documento como un script.
+Los comandos del sistema requieren privilegios administrativos; las utilidades
+Moodle se ejecutan como el usuario de servicio web.
 
-## Criterios
+El ensayo de referencia partio de Moodle 4.5.8 y utilizo Moodle 5.3 Build
+20261005, PHP 8.3.35 y MariaDB 11.4.13. No son una recomendacion de versiones
+actuales: revisar requisitos, publicaciones y soporte antes de otra ejecucion.
 
-- Separar propuestas, ejecuciones confirmadas y pruebas funcionales.
-- Documentar el entorno y las versiones exactas de cada ensayo.
-- No confundir una migracion de base terminada con una plataforma validada.
-- Marcar candidatas RC y soporte no confirmado sin presentarlos como estables.
-- Conservar respaldos y definir recuperacion antes de aplicar cambios.
-- Revisar procedimientos antes de reproducirlos en produccion.
+Las instrucciones generalizadas se distinguen de los resultados del ensayo.
+Un upgrade CLI exitoso no garantiza compatibilidad funcional. Los paquetes RC
+o fuera de su rango declarado se incluyen como referencia experimental, no
+como dependencias recomendadas.
 
-## Privacidad
+## Recuperacion
 
-Esta guia describe un entorno tecnico reproducible, no identifica las plataformas
-de origen ni a sus responsables. No publicar usuarios reales, instituciones,
-dominios, IP, nombres de servidores, cursos o plataformas, ni rutas personales.
+Antes de modificar codigo o datos debe existir una recuperacion comprobada de
+base de datos, `moodledata`, codigo y configuracion del mismo punto consistente.
+Conservar solamente el codigo anterior no permite deshacer una migracion de base.
+Una copia independiente permite comparar instalaciones; un snapshot ofrece un
+punto de retorno, sujeto a que incluya los discos y servicios necesarios.
 
-No incorporar config.php, credenciales, bases de datos, moodledata, archivos de
-cursos, datos de participantes ni capturas originales. No copiar la bitacora
-operativa completa: este proyecto contiene una sintesis revisada.
+## Referencias y privacidad
 
-El destino acordado es un repositorio publico. No se requiere ocultar la identidad
-de quien lo publica; si proteger la informacion de las plataformas de origen y
-evitar cualquier vinculacion institucional en documentos, ejemplos y metadatos.
-Revisar tambien nombres y correos de autoria para excluir datos institucionales.
+- [Guia oficial de actualizacion de Moodle 5.3](https://docs.moodle.org/503/en/Upgrading).
+- [Politica de privacidad del repositorio](docs/privacidad.md).
 
-La documentacion se publica en elaboracion. Los procedimientos y hallazgos se
-ampliaran a medida que se confirmen ejecuciones y resultados.
+El repositorio contiene procedimientos y resultados tecnicos anonimizados.
+No debe incluir configuraciones reales, credenciales, respaldos, datos de cursos
+o participantes, ni capturas originales de instalaciones.

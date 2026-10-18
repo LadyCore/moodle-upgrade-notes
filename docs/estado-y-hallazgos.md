@@ -1,226 +1,91 @@
-# Estado y hallazgos
+# Matriz del ensayo de referencia
 
-Fecha de corte: 2026-10-18. Evidencia de laboratorio; no aprobacion de produccion.
+Evidencia consolidada hasta el 2026-10-18. Este anexo conserva trazabilidad
+tecnica; las instrucciones reutilizables estan en el
+[procedimiento](procedimiento-actualizacion.md). Las versiones son referencias
+historicas, no una seleccion automatica de paquetes para otra instalacion.
 
-## Resultados confirmados
+## Entorno
 
-| Cambio | Resultado observado | Limite |
-| --- | --- | --- |
-| Core 4.5.8 a 5.3 Build 20261005 | Actualizador CLI completo correctamente | No valida todos los adicionales |
-| DocumentRoot y Directory hacia public | Acceso web al nuevo arbol | No valida todas las rutas |
-| DirectoryIndex index.php explicito dentro del Directory del sitio | Portada por ruta raiz dejo de devolver 404 | No se registro validacion final del router |
-| Multitopic 4.5.3 a 5.3.0, build 2026100502 | Reaparecieron pestanas, contenido y banner con Boost y Adaptable | Pruebas exhaustivas de actividades pendientes |
-| Collapsed Topics a 503.0.2, build 2026100701 | Actualizador CLI completo correctamente | MATURITY_RC; prueba funcional pendiente |
-| Grid 405.1.5 a 500.1.2, build 2025040707 | Actualizador CLI completo correctamente en ensayo 5.3 | Soporte declarado solo 5.0; compatibilidad funcional y aprobacion de produccion pendientes |
-| Onetopic 4.4.08 a 5.1.0(Minitas), build 2026040500.02 | Actualizador CLI completo correctamente en ensayo 5.3 | Soporte declarado solo 5.1; prueba funcional pendiente |
-| Tiles 4.5.0.28 a 5.1.0.2, build 2026012570 | Actualizador CLI completo correctamente en ensayo 5.3 | Soporte declarado solo 5.1; prueba funcional pendiente |
-| Adaptable 405.2.8 a 502.2.1, build 2026041207 | Actualizador CLI completo correctamente en ensayo 5.3 | Soporte declarado solo 5.2; revision visual y funcional pendiente |
-| Dependencias Composer desde composer.lock, sin desarrollo, scripts ni plugins; autoload optimizado | Extraccion real completada; check-platform-reqs --no-dev muestra success; mantenimiento desactivado y Apache active | No acredita desaparicion de avisos web ni correccion del router |
+| Elemento | Referencia |
+| --- | --- |
+| Sistema | CentOS Stream 9 Minimal |
+| Web | Apache con PHP-FPM de Remi |
+| PHP utilizado | 8.3.35; ejecutable CLI explicitamente seleccionado |
+| Base de datos | MariaDB 11.4.13 |
+| Origen Moodle | 4.5.8 |
+| Destino Moodle | 5.3 Build 20261005, version 2026100500 |
 
-## Incidentes
+## Componentes
 
-### Entrada por directorio devolvia 404
+Los nueve elementos de certificados forman parte del paquete del gestor.
+`Upgrade correcto` significa que el actualizador termino, no que todas las
+funciones del componente hayan sido verificadas.
 
-La raiz devolvia una pagina de error generada por Moodle, mientras index.php
-explicito mostraba la portada. Tras agregar DirectoryIndex index.php al bloque
-Directory del sitio, validar la sintaxis de Apache y recargarlo, la portada por
-raiz funciono. FallbackResource /r.php ya estaba configurado. No generalizar este
-ajuste a todos los servidores sin revisar su configuracion efectiva.
-
-### Curso aparentemente vacio
-
-El curso conservaba recursos accesibles por enlaces individuales, pero su vista
-principal no mostraba secciones con Boost ni Adaptable. Usaba Multitopic 4.5.3.
-Actualizar ese formato a 5.3.0 recupero la vista y el banner sin volver a subir
-la imagen. La evidencia no justificaba declarar perdidos los archivos.
-
-### Descargas y errores de escritura
-
-- Una descarga del catalogo guardo HTML en lugar de ZIP. unzip -t detecto el problema.
-- Otra descarga devolvio 404 por un nombre de usuario GitHub mal escrito en la
-  variable de URL. La atribucion inicial del asistente a una v minuscula era
-  incorrecta: el tag estaba bien escrito con V mayuscula.
-- La descarga del tag correcto paso la prueba del archivo comprimido.
-- No usar curl sin comprobar despues que se obtuvo el tipo de paquete esperado.
-- Una prueba de integridad del ZIP no acredita firma, compatibilidad ni funcionamiento.
-
-## Pendientes
-
-- Adaptable 405.2.8 mostraba paneles superpuestos y controles defectuosos en 5.3.
-  Actualizado a 502.2.1; tras reabrir y seleccionarlo, persiste superposicion de
-  paneles sobre el contenido en portada, administracion y curso. Pendiente
-  inspeccionar ajustes de layout, sin causa confirmada. Campos Custom CSS y H5P
-  Custom CSS vacios en la captura revisada. El propio tema muestra advertencia
-  explicita de incompatibilidad con Moodle 5.3; no presentarlo como compatible.
-- Tras instalar dependencias y reabrir el laboratorio, Composer installed data
-  not found ya no aparece en Other checks de la comprobacion web mostrada.
-  /core/check/controller/test devuelve Test controller response antes de agregar
-  $CFG->routerconfigured = true; en config.php, antes de cargar lib/setup.php.
-  Tras esa declaracion desaparece Router not configured de Entorno. No fue
-  necesario cambiar handlers ni reglas Apache. Esto verifica la ruta probada y
-  la declaracion, no todas las rutas ni el funcionamiento de los adicionales.
-- Un episodio transitorio de Database connection failed se recupero segun el
-  relato de la administradora. Causa no determinada.
-- Certificados 5.0.11 instalado: gestor y nueve elementos completaron el upgrade.
-  La gestion de plantillas y la vista previa PDF funcionan en la prueba basica.
-  No aparece el aviso anterior de subplugintypes en la salida del upgrade.
-  Soporte declarado 5.0-5.2; emision real y validacion del QR no comprobadas.
-- Imagenes de tarjetas y contenido visibles en las revisiones de Moove y Trema.
-  No equivale a validar todos los archivos; no hay evidencia de perdida general.
-- Zoom 5.5.1, build 2026082400: sin reemplazo; revision pendiente. No se usa
-  mediante Moodle segun el alcance informado.
-
-## Dependencias Composer
-
-La ausencia inicial de vendor se abordo conservando composer.lock. Se descargo
-un PHAR con version fijada y se verifico su checksum oficial. Tras una simulacion,
-la instalacion real se ejecuto bajo mantenimiento con PHP 8.3, sin dependencias
-de desarrollo, scripts ni plugins y con autoload autoritativo. Se ajustaron la
-propiedad del nuevo vendor y su contexto SELinux antes de reabrir Apache.
-
-check-platform-reqs --no-dev mostro todos los requisitos listados en success con
-PHP 8.3.35. ctype y mbstring figuraban provistos por polyfills; una consulta
-posterior de modulos confirmo ambas extensiones nativas en CLI. No extrapolar
-esa comprobacion a la configuracion efectiva de PHP-FPM.
-
-Tras reabrir, se observa mejora parcial del control del indice del curso: permite
-abrir y cerrar la navegacion. No atribuir causalidad exclusiva a Composer ni
-declarar el tema validado; la revision visual conjunta sigue pendiente.
-
-El aviso de version del paquete raiz moodle/moodle no detectada, con fallback a
-1.0.0, no equivale a cambiar la version de Moodle instalada. La instalacion de
-bibliotecas no demuestra por si sola que el router o la interfaz funcionen.
-
-## Alternativas Adicionales
-
-El alcance se amplio a Moove y Trema para disponer de opciones de tema, sin
-aprobar por ello un cambio de tema en produccion. Moove se actualizo de 4.5.2 a
-5.3.1 (build 2026101200), revision 1e0e60fc3b1fe152a4d6749054ee25dc0a2f32ad
-del repositorio oficial willianmano/moodle-theme_moove. El actualizador CLI
-completo correctamente. Sus requisitos declarados de Moodle y Boost se
-comprobaron antes del reemplazo; revision basica descrita a continuacion.
-Trema se actualizo de 5.2.1.0 a 5.3.0.0 (build 2026101200), tag 5.3.0.0 del
-repositorio oficial trema-tech/moodle-theme_trema. Su ZIP paso la comprobacion
-de integridad, requisitos minimos verificados y actualizador CLI completado
-correctamente. Codigo anterior conservado fuera del arbol web. El 2026-10-18
-se selecciona Trema y se observan
-portada, tarjetas con imagenes, bloques globales, curso con pestanas, libro y
-foro renderizados. Se abre mensajeria y se visualiza una prueba nueva en espacio
-personal; no acredita entrega entre usuarios. Textos de muestra del tema quedan
-por personalizar. Revision basica satisfactoria en esas capturas, no validacion
-funcional exhaustiva ni de todos los tamanos de pantalla.
-
-En la misma fecha se selecciona Moove 5.3.1: selector confirma tema activo;
-portada con tarjetas, bloques globales, curso con pestanas, foro y libro muestran
-presentacion ordenada sin superposicion visible en las capturas. Mensajeria abre
-y muestra una nueva prueba en espacio personal. Esto no acredita entrega entre
-usuarios ni pruebas exhaustivas. Posteriormente la gestion de certificados se
-observa con Trema; no se da por definitiva la seleccion del tema.
-
-En una revision posterior del 2026-10-18 se observan desajustes de presentacion
-del panel lateral derecho en ambos temas segun la pagina: en Trema aparece sobre
-el banner de portada; en Moove se prolonga junto al contenido y pie. Configuracion
-es una hipotesis, no una causa comprobada. Revisar comportamiento esperado del
-cajon, alineacion y ajustes antes de modificar CSS. La revision basica favorable
-no equivale a ausencia de detalles visuales pendientes.
-
-## Compatibilidad revisada
-
-### Alternativa visual con Boost
-
-Ante la superposicion persistente en Adaptable, se selecciono Boost. El ajuste
-theme_boost/unaddableblocks permite quitar navigation y settings de la lista de
-bloques excluidos, conservando course_list si se desea. Esto habilita agregarlos;
-no crea instancias automaticamente ni determina su alcance.
-
-Tras agregar Navigation, una captura del curso muestra navegacion derecha,
-indice izquierdo y contenido central sin superposicion visible. La administradora
-confirma Navigation y Administration globales funcionando, sin duplicados.
-La configuracion inicial pertenecia al
-curso; para alcance global se configuro desde Site home, siguiendo Page contexts
-Display throughout the entire site. La administradora confirma que aparece bien;
-no equivale a validar individualmente todas las paginas. No borrar
-Adaptable ni su configuracion como requisito de esta alternativa.
-
-### Revision basica del curso existente
-
-Con Boost y el curso Multitopic existente, se confirma por relato de la
-administradora que las pestanas funcionan. Las capturas muestran paginas de foro
-y cuestionario abiertas, recursos PDF renderizados y pagina de recurso URL
-accesible, con navegacion lateral presente y sin superposicion visible. No se
-acredita el destino externo de la URL, nuevos intentos, calificaciones, permisos
-como estudiante ni finalizacion. No es validacion integral del formato.
-
-El alcance de pruebas acordado es revisar cursos existentes o restaurar copias
-de cursos que ya usen cada formato. No crear cursos de prueba ni cambiar el
-formato de originales. Los formatos sin un curso representativo quedan pendientes.
-
-El laboratorio es privado y exclusivo de la administradora; las creadoras de
-cursos no acceden ni participan en sus pruebas. La revision de sus cursos les
-corresponderia en produccion despues de una migracion autorizada. En este caso,
-disponer de Adaptable compatible es condicion para ese salto; Boost en laboratorio
-no implica aprobacion de reemplazar el tema de produccion.
-
-### Investigacion adicional de Adaptable para 5.3
-
-
-Consulta del 2026-10-17: ultima release publica encontrada V502.2.1, publicada el
-2026-10-06 para Moodle 5.2. Las ramas publicas consultadas no incluyen MOODLE_503;
-main declara soporte 5.2. No se localizo paquete publico declarado compatible 5.3.
-
-El articulo [Dark mode](https://www.elearningworld.org/dark-mode/), publicado por
-Gareth Barnard el 2026-10-16, explica la funcion experimental de Boost y menciona
-por separado experimentos de modo oscuro y controles en Adaptable. Esa mencion
-NO demuestra una adaptacion de compatibilidad de Adaptable a Moodle 5.3, ni un
-plan, plazo o paquete de prueba para esa version. No usarla como evidencia de
-soporte 5.3 en desarrollo. Preguntar al autor especificamente por compatibilidad
-5.3 seria el siguiente paso; no se lo ha contactado.
-
-Las versiones siguientes se verificaron el 2026-10-17. Son datos de publicaciones,
-no certificaciones de compatibilidad independientes. Actualizar la consulta antes
-de planificar otro despliegue.
-
-| Componente | Referencia revisada | Rango declarado | Estado del ensayo |
+| Componente | Version ensayada y referencia fija | Soporte declarado revisado | Resultado y limite |
 | --- | --- | --- | --- |
-| Multitopic | v5.3.0, estable | Moodle 5.3 en catalogo | Actualizado; renderizado recuperado |
-| Collapsed Topics | V503.0.2, RC | 5.3 | Actualizado; prueba funcional pendiente |
-| Adaptable | V502.2.1, estable | 5.2 | Upgrade CLI exitoso en ensayo 5.3; persiste superposicion visual de paneles |
-| Grid | V500.1.2, estable | 5.0 | Actualizado en ensayo 5.3; upgrade CLI exitoso, prueba funcional pendiente |
-| Onetopic | 5.1.0(Minitas), commit bf59f12f670d88892112be2205085fa25377a181 | 5.1 | Actualizado en ensayo 5.3; upgrade CLI exitoso, prueba funcional pendiente |
-| Tiles | 5.1.0.2, commit b22538a2fb7bbcbd41d6400358d22ddfc5ad307e | 5.1 | Actualizado en ensayo 5.3; upgrade CLI exitoso, prueba funcional pendiente |
-| Mail | 2.18, build 2026100500 | Incluye 5.3 | Ya instalado, sin reemplazo |
-| eMail Test | 3.1.8, build 2026042001 | Incluye 5.3 | Ya instalado, sin reemplazo |
-| Certificados y nueve elementos | v5.0.11, build 2026100600 | 5.0-5.2 | Upgrade exitoso y vista previa PDF renderizada; emision real pendiente |
-| Zoom | 5.5.1, build 2026082400 instalado | No se revalida en este paso | Unico componente del inventario original cuya revision sigue pendiente |
+| Multitopic | 5.3.0, build 2026100502; tag v5.3.0 | 5.3 | Upgrade correcto; contenido, banner y pestanas recuperados |
+| Collapsed Topics | 503.0.2, build 2026100701; tag V503.0.2 | 5.3; RC | Upgrade correcto; prueba en curso representativo pendiente |
+| Grid | 500.1.2, build 2025040707; tag V500.1.2 | Solo 5.0 | Upgrade correcto fuera de rango; funcionalidad pendiente |
+| Onetopic | 5.1.0(Minitas), build 2026040500.02; commit bf59f12f670d88892112be2205085fa25377a181 | Solo 5.1 | Upgrade correcto fuera de rango; funcionalidad pendiente |
+| Tiles | 5.1.0.2, build 2026012570; commit b22538a2fb7bbcbd41d6400358d22ddfc5ad307e | Solo 5.1 | Upgrade correcto fuera de rango; funcionalidad pendiente |
+| Adaptable | 502.2.1, build 2026041207; tag V502.2.1 | Solo 5.2 | Upgrade correcto; advertencia de incompatibilidad y paneles superpuestos en 5.3 |
+| Moove | 5.3.1, build 2026101200; commit 1e0e60fc3b1fe152a4d6749054ee25dc0a2f32ad | Minimos comprobados; rango no certificado aqui | Portada, curso, foro, libro y espacio personal de mensajes accesibles; alineacion de paneles pendiente |
+| Trema | 5.3.0.0, build 2026101200; tag 5.3.0.0 | Minimos comprobados; rango no certificado aqui | Revision basica equivalente a Moove; panel sobre banner y detalles visuales pendientes |
+| Gestor de certificados y nueve elementos | 5.0.11, build 2026100600; tag v5.0.11 | 5.0-5.2 | Upgrade correcto fuera de rango; gestion y vista previa PDF satisfactorias |
+| Mail | 2.18, build 2026100500 | Incluye 5.3 | Sin reemplazo; entrega no validada |
+| eMail Test | 3.1.8, build 2026042001 | Incluye 5.3 | Sin reemplazo; prueba funcional pendiente |
+| Zoom | 5.5.1, build 2026082400 | Pendiente de revalidar | Sin reemplazo; revision pendiente |
 
-## Prueba Basica De Certificados
+## Infraestructura
 
-El 2026-10-18 se instalo el paquete 5.0.11 como ensayo expresamente autorizado
-fuera de su soporte declarado. Se conservo el codigo previo fuera del arbol web;
-esto no equivale a restaurar la base de datos. El actualizador termino con Success
-para el gestor y los nueve elementos. La pagina de plantillas abre y la vista
-previa genera un PDF de una pagina con nombre, fecha, fondo, imagen de firma,
-logo y QR visibles. El texto coursefullname aparece literalmente en la vista
-previa; no se comprobo su sustitucion en una emision real. No se verificaron
-entrega, validacion del QR ni firma digital criptografica.
+| Comprobacion | Resultado |
+| --- | --- |
+| Actualizador del core | Finalizo correctamente |
+| Raiz web en public | Acceso operativo |
+| Entrada por raiz | 404 corregido al establecer DirectoryIndex index.php |
+| Composer | Instalacion desde composer.lock; check-platform-reqs --no-dev satisfactorio en CLI |
+| Entorno web | Desaparecio Composer installed data not found |
+| /core/check/controller/test | Respondio Test controller response antes de declarar routerconfigured |
+| Router not configured | Dejo de aparecer tras la declaracion; otras rutas no exhaustivamente verificadas |
+| Bloques globales | Navigation y Administration operativos tras habilitacion en Boost y ajuste de alcance; sin duplicados observados |
 
-Fuentes primarias:
+## Limites funcionales
 
-- [Moodle: actualizar a 5.3](https://docs.moodle.org/503/en/Upgrading).
-- [Multitopic v5.3.0](https://github.com/james-cnz/moodle-format_multitopic/releases/tag/v5.3.0).
-- [Collapsed Topics V503.0.2](https://github.com/gjbarnard/moodle-format_topcoll/tree/V503.0.2).
-- [Adaptable V502.2.1](https://github.com/gjbarnard/moodle-theme_adaptable/tree/V502.2.1).
-- [Grid V500.1.2](https://github.com/gjbarnard/moodle-format_grid/tree/V500.1.2).
+- Cursos: pestanas operativas, PDF visibles y paginas de foro, libro y
+  cuestionario accesibles. No se validaron nuevos intentos, calificaciones,
+  finalizacion ni permisos de estudiante. Abrir un recurso URL no comprueba su
+  destino externo.
+- Mensajeria: apertura y mensajes nuevos en espacio personal con Moove y Trema;
+  no demuestra entrega entre usuarios ni notificaciones.
+- Certificados: PDF con nombre, fecha, fondo, imagen de firma, logo y QR.
+  `coursefullname` aparece literal en la vista previa. Emision real, sustitucion
+  del curso, validacion de QR y firma criptografica no comprobadas.
+- Formatos: faltan cursos representativos para completar las pruebas.
+- Temas: causa no determinada de los desajustes de paneles en Moove y Trema.
+  No se aplicaron parches CSS. Adaptable conserva un problema de compatibilidad.
+
+## Observaciones fechadas
+
+La consulta de Adaptable del 2026-10-17 no localizo un paquete publico declarado
+compatible con 5.3. V502.2.1 y main correspondian a 5.2. No es el estado actual
+garantizado del proyecto. Una mencion de experimentos de modo oscuro no constituye
+anuncio de adaptacion, plazo o soporte para 5.3.
+
+El aviso de `tool_certificate/db/subplugins.json` sobre `subplugintypes` obsoletos
+estaba presente antes del reemplazo. No aparecio en la salida visible del upgrade
+a 5.0.11; no se verificaron todos los contextos de ejecucion.
+
+## Fuentes de paquetes y autoria
+
+- [Multitopic, repositorio del autor](https://github.com/james-cnz/moodle-format_multitopic/releases/tag/v5.3.0).
+- [Collapsed Topics, Gareth Barnard](https://github.com/gjbarnard/moodle-format_topcoll/tree/V503.0.2).
+- [Grid, Gareth Barnard](https://github.com/gjbarnard/moodle-format_grid/tree/V500.1.2).
+- [Adaptable, repositorio de mantenimiento](https://github.com/gjbarnard/moodle-theme_adaptable/tree/V502.2.1).
 - [Onetopic, repositorio del autor](https://github.com/davidherney/moodle-format_onetopic).
 - [Tiles, repositorio del autor](https://bitbucket.org/dw8/moodle-format_tiles/).
-- [Mail, versiones](https://marketplace.moodle.com/plugins/1048/versions).
-- [eMail Test, versiones](https://marketplace.moodle.com/plugins/3723/versions).
-- [Gestor de certificados, versiones](https://marketplace.moodle.com/plugins/2233/versions).
-
-## Preparacion de produccion
-
-Antes del despliegue real: completar componentes pertinentes y revision funcional,
-resolver o aceptar explicitamente restricciones de soporte, definir recuperacion y
-avisar a las administradoras sobre cambios visuales esperados. Capturar referencias
-y conservar configuraciones de personalizacion antes del cambio. No anunciar una
-reconstruccion obligatoria de portadas a partir de un fallo de renderizado no diagnosticado.
+- [Moove, Willian Mano](https://github.com/willianmano/moodle-theme_moove).
+- [Trema, Trema Tech](https://github.com/trema-tech/moodle-theme_trema).
+- [Gestor de certificados, Moodle Workplace](https://github.com/moodleworkplace/moodle-tool_certificate/tree/v5.0.11).
+- [Mail, catalogo de versiones](https://marketplace.moodle.com/plugins/1048/versions).
+- [eMail Test, catalogo de versiones](https://marketplace.moodle.com/plugins/3723/versions).
